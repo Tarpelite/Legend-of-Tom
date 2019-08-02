@@ -1,6 +1,6 @@
 # Legend-of-Tom
 
-By shaohan huang, Tianyu Chen
+By Shaohan Huang, Tianyu Chen
 
 ## Introduction
 
@@ -19,7 +19,7 @@ pip install django
 cd ..
 cd TextGame
 python manage.py runserver
-``
+```
 
 
 
