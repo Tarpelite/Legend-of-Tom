@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hint Fiction Writer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/de5f902b4a.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <!-- The Header of the page -->
+                <h2>Hint Fiction Writer</h2>
+
+                <ul class="nav nav-list"><li class="divider"></li></ul>
+                
+                <dt>
+                    <dt><h4><span class="badge badge-info">Introduction</span></h4></dt>
+                    <ul>
+                    <li><dd>The main charactor is Tom, who lived between 1931 - 2000. </dd></li>
+                    <li><dd>Our hint fiction writer will help you explore his lifetime. </dd></li> 
+                    <li><dd>The Hint interval is every 10 years, So you only need to fill the details.</dd></li>
+                    </ul>
+                    <dt><h4><span class="badge badge-warning">Note</span></h4></dt>
+                    <ul>
+                    <li><dd>Our Host is running on a sinlge P100 GPU, please take patience while waiting for Hint.</dd></li>
+                    <li><dd>Now start writing your Unique Life Story, Have Fun!</dd></li>
+                    </ul>
+                </dt>
+                <br>
+                <h5><span class="badge badge-secondary">Tom's Life Time</span></h5>
+                <ul class="nav nav-list"><li class="divider"></li></ul>
+
+                <!-- The Progress Bar -->
+                <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-success  progress-bar-animated" role="progressbar" style="width: {{ width }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Year:{{ time }}</div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- The text field part-->
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                    <ul class="nav nav-list"><li class="divider"></li></ul>
+                    <form class="form-horizontal" role="form" action="/TextWeb/" method="POST" enctype="multipart/form-data">    
+                        <div class="md-form shadow-textarea">
+                            {% csrf_token %}  
+                             <i class="fas fa-pencil-alt" id="pencil"></i>
+                             <label for="customed-grammary" id="label1"> The Story：</label>
+                             <pre><textarea class="md-textarea form-control" id="customed-grammary" rows="20" name="prompt">{% if ans  %}{{ ans }}{% else %}Tom, (born June 2, 1931, Higher Bockhampton, Dorset, England—died January 11, 2000, Dorchester, Dorset), English novelist and poet who set much of his work in Wessex, his name for the counties of southwestern England.{% endif %}
+</textarea></pre>
+                        </div>
+                        <div class= "md-form shadow-textarea" > 
+                                {% csrf_token %}  
+                            <textarea class="md-textarea form-control" id="time" name="time">{{ time }}</textarea>
+                        </div> 
+                    <br>
+                    <div class="col text-right">
+                        <button type='submit' class='btn btn-primary' id="sub">Next Decade</button>
+                    </div>
+                    </form>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <ul class="nav nav-list"><li class="divider"></li></ul> 
+                {% if end %}
+                <div class="md-form pink-textarea active-amber-textarea">
+                        <i class="fas fa-book"></i>
+                        <label for="final" id="label2"> The Story：</label>
+                    <pre><textarea  id="form19" class="md-textarea form-control" id="final" rows="20">{{ ans }}</textarea>
+                    </pre>
+                      </div>
+                {% endif %}
+                {% if Choices %}
+                    <pre><h3 id="hint">Time flies, Now is {{ time }}</h3></pre>
+                    {% for chose in Choices %}
+                    <br>
+                    <div class='col text-left'>
+                        <button class="btn btn-secondary choice"> {{ chose }}</button>
+                    </div>
+                    {% endfor %}
+                {% endif %} 
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% csrf_token %}
+    <script> 
+            $(document).ready(function(){
+                $("#time").hide();
+                $(".choice").click(function(event){
+                console.log(window.location.host + "/TextWeb/Choice");
+                console.log($("#customed-grammary").text() + $(this).text());
+                var newtext = $.trim($.trim($("#customed-grammary").text()) + $(this).text())
+                $("#customed-grammary").text(newtext);
+                $(".choice").hide();
+                $("#hint").hide();
+
+                });
+            });
+    </script>
+    {% if end %}
+    <script>
+            $(document).ready(function(){
+                 $("#sub").hide();
+                 $("#customed-grammary").hide();
+                 $("#label1").hide();
+                 $("#pencil").hide();
+         });
+    </script>
+    {% endif%}
+</body>
+</html>
