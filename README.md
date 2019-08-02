@@ -21,5 +21,8 @@ cd TextGame
 python manage.py runserver
 ```
 
+## OverView
+![pic1](https://github.com/Tarpelite/Legend-of-Tom/blob/master/Screenshot%20(60).png)
+
 
 
